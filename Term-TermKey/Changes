@@ -1,0 +1,31 @@
+Revision history for Term-TermKey
+
+0.06    CHANGES:
+         * Store underlying Term::TermKey object in Term::TermKey::Key event
+           objects; allows $key->format() shortcut
+         * More tests - test simple keypresses, use Test::Refcount
+
+0.05    CHANGES:
+         * Updated for libtermkey 0.5; addsmouse support
+         * Added 'use warnings' also to example scripts
+
+0.04    CHANGES:
+         * Use binmode :encoding(UTF-8) rather than :utf8
+         * Updated for libtermkey 0.3
+         * Added 'use warnings'
+         * Various small updates to keep CPANTS happy
+
+0.03    CHANGES:
+         * Added wrapping of termkey_keyname2sym().
+
+0.02    CHANGES:
+         * Quote async example inline, rather than refering to filename.
+        
+        BUGFIXES:
+         * Detect Ctrl-C in either upper or lowercase, to account for
+           libtermkey version 0.2.
+         * eval{}-wrap the initial call to ExtUtils::PkgConfig in case of
+           failure.
+
+0.01    First version, released on an unsuspecting world.
+

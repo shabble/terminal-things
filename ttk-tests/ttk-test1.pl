@@ -7,6 +7,8 @@ use Data::Dumper;
 
 use Term::TermKey;
 
+use FindBin qw/$Script/;
+
 my $tk = Term::TermKey->new(\*STDIN);
 
 binmode(STDOUT, ":encoding(UTF-8)")
@@ -19,8 +21,8 @@ while((my $ret = $tk->waitkey($key)) != RES_EOF) {
 
     say "Key Details:";
 
-    process_key($key);
-    
+    process_key($key) unless $key->type_is_keysym;;
+
     say "-" x 30;
 }
 
@@ -29,12 +31,14 @@ sub process_key {
     my ($key) = @_;
     my $type = $key->type;
 
+    return unless defined $type;
+
     given ($type) {
+        when (TYPE_FUNCTION) {
+            say "F-Key number is: invisible?"; # . $key->number;
+        }
         when (TYPE_UNICODE) {
             say "Unicode value is: " . $key->codepoint;
-        }
-        when (TYPE_FUNCTION) {
-            say "F-Key number is: " . $key->number;
         }
         when (TYPE_KEYSYM) {
             say "KeySym is: " . sprintf("0x%04x", $key->sym) .
@@ -44,9 +48,12 @@ sub process_key {
             say "Mouse is: magic!";
         }
     }
+
     say "UTF Value is: " . $key->utf8;
 
     my $mod = $key->modifiers;
+
+    return unless defined $mod;
 
     given ($mod) {
         when (KEYMOD_SHIFT) {
