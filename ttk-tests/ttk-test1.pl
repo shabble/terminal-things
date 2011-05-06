@@ -10,6 +10,7 @@ use Term::TermKey;
 use FindBin qw/$Script/;
 
 my $tk = Term::TermKey->new(\*STDIN);
+$tk->set_waittime(5000);
 
 binmode(STDOUT, ":encoding(UTF-8)")
   if $tk->get_flags & FLAG_UTF8;
@@ -35,10 +36,7 @@ sub process_key {
 
     given ($type) {
         when (TYPE_FUNCTION) {
-            say "F-Key number is: invisible?"; # . $key->number;
-        }
-        when (TYPE_UNICODE) {
-            say "Unicode value is: " . $key->codepoint;
+            say "F-Key number is: " .  $key->number;
         }
         when (TYPE_KEYSYM) {
             say "KeySym is: " . sprintf("0x%04x", $key->sym) .
@@ -49,7 +47,7 @@ sub process_key {
         }
     }
 
-    say "UTF Value is: " . $key->utf8;
+    say "UTF Value is: " . ($key->utf8 // "undefined") ;
 
     my $mod = $key->modifiers;
 

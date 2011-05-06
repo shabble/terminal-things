@@ -59,6 +59,19 @@ is( $key->modifiers, KEYMOD_CTRL, '$key->modifiers after C-a' );
 
 is( $key->format( 0 ), "C-a", '$key->format after C-a' );
 
+$wr->syswrite("\e[OQ"); # send F1
+
+$tk->advisereadable;
+
+is( $tk->getkey( $key ), RES_KEY, 'getkey yields RES_KEY after F1' );
+
+ok( $key->type_is_function,       '$key->type_is_function after F1a' );
+is( $key->number,    1,           '$key->number is 1  after F1' );
+is( $key->modifiers, KEYMOD_CTRL, '$key->modifiers after F1' );
+
+#is( $key->format( 0 ), "C-a", '$key->format after C-a' );
+
+
 $wr->syswrite( "\eOA" );
 
 $tk->advisereadable;
